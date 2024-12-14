@@ -1,8 +1,11 @@
-import { ChangeEvent, FC, HTMLAttributes, PropsWithChildren } from "react";
+import { ChangeEvent, FC, PropsWithChildren } from "react";
 
 interface SelectProps
   extends PropsWithChildren,
-    HTMLAttributes<HTMLSelectElement> {
+    React.DetailedHTMLProps<
+      React.SelectHTMLAttributes<HTMLSelectElement>,
+      HTMLSelectElement
+    > {
   value?: string;
   defaultValue?: string;
   id?: string;

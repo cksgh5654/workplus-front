@@ -15,6 +15,7 @@ type DatepickerProps = {
   readOnly?: boolean;
   minDate?: Date;
 };
+const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"]; // 요일 한글화
 
 const Datepicker: React.FC<DatepickerProps> = ({
   selected,
@@ -25,8 +26,6 @@ const Datepicker: React.FC<DatepickerProps> = ({
   readOnly,
   minDate,
 }) => {
-  const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"]; // 요일 한글화
-
   return (
     <div>
       {id ? (

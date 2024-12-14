@@ -1,9 +1,9 @@
 import { UserData } from "../../types";
 
 type AutoCompleteProps = {
-  value?: string;
-  onSelect?: (user: UserData) => void;
-  id?: string;
+  value: string;
+  onSelect: (user: UserData) => void;
+  id: string;
   readOnly?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
