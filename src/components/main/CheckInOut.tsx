@@ -2,6 +2,26 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "../common/Button";
 
+const options: Intl.DateTimeFormatOptions = {
+  hour: "2-digit",
+  minute: "2-digit",
+  // second: "2-digit",
+  hour12: false,
+};
+
+const arrDayStr = ["일", "월", "화", "수", "목", "금", "토"];
+
+const dt = new Date();
+const today =
+  dt.getFullYear() +
+  "년 " +
+  (dt.getMonth() + 1) +
+  "월 " +
+  dt.getDate() +
+  "일 (" +
+  arrDayStr[dt.getDay()] +
+  ")";
+
 const CheckInOut = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [user, _setUser] = useState(() => {
@@ -13,27 +33,8 @@ const CheckInOut = () => {
   const [checkoutTime, setCheckoutTime] = useState("");
   const [isCheckInClick, setIsCheckInClick] = useState(false);
 
-  const options: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-    // second: "2-digit",
-    hour12: false,
-  };
-
   const userId = user.userId;
   const token = user.token;
-
-  const arrDayStr = ["일", "월", "화", "수", "목", "금", "토"];
-  const dt = new Date();
-  const today =
-    dt.getFullYear() +
-    "년 " +
-    (dt.getMonth() + 1) +
-    "월 " +
-    dt.getDate() +
-    "일 (" +
-    arrDayStr[dt.getDay()] +
-    ")";
 
   const updateCurrentTime = () => {
     const now = new Date();

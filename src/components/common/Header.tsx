@@ -7,26 +7,49 @@ import { useNavigate } from "react-router-dom";
 import defaultImg from "../icons/profileImg.svg";
 import api from "../../utils/api";
 
+interface User {
+  address: string;
+  birth: string;
+  email: string;
+  id: string;
+  isAdmin: boolean;
+  phone: string;
+  token: string;
+  userId: string;
+  userImage: string;
+  username: string;
+}
+
 const Header = () => {
   const [isMenu, setIsMenu] = useState(false);
   const [idAdmin, setIsAdmin] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
   const [AvatarImage, setAvatarImage] = useState("");
-  const [user, _setUser] = useState(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
+  const [user, setUser] = useState<User>({
+    address: "",
+    birth: "",
+    email: "",
+    id: "",
+    isAdmin: false,
+    phone: "",
+    token: "",
+    userId: "",
+    userImage: "",
+    username: "",
   });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      setIsAdmin(user.isAdmin);
-      user.userImage
-        ? setAvatarImage(user.userImage)
-        : setAvatarImage(defaultImg);
+    const savedUser = localStorage.getItem("user");
+
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      setIsAdmin(parsedUser.isAdmin);
+      setAvatarImage(parsedUser.userImage || defaultImg);
     }
-  }, [user]);
+  }, []);
 
   const handleClickMenu = () => {
     setIsMenu(!isMenu);
@@ -35,23 +58,22 @@ const Header = () => {
   const checkNewMeeting = async () => {
     try {
       const response = await api.get(`/meeting/my/unchecked/${user.username}`);
-      return response.data.unCheckedMeeting;
+      setIsAlarm(response.data.unCheckedMeeting);
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    checkNewMeeting() //
-      .then(setIsAlarm);
-    const timerId = setInterval(() => {
-      checkNewMeeting() //
-        .then(setIsAlarm);
-    }, 2500);
 
-    return () => {
-      clearInterval(timerId);
-    };
-  }, []);
+  useEffect(() => {
+    if (user.username) {
+      const timerId = setInterval(() => {
+        checkNewMeeting();
+      }, 2500);
+      return () => {
+        clearInterval(timerId);
+      };
+    }
+  }, [user.username]);
 
   return (
     <header className="sticky top-0 bg-white">
