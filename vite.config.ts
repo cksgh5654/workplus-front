@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://15.164.216.227",
+        target:
+          "https://port-0-workplus-back-m84jn4js1a33a574.sel4.cloudtype.app",
       },
     },
   },
